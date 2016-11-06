@@ -4,6 +4,9 @@ function consoleRec(index,elements)
     {
         console.log(elements[index]);
         consoleRec(index + 1,elements);
+        console.log(elements[index]);
+    }else{
+        console.log('In reverse order:');
     }
 }
 
