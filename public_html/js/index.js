@@ -1,13 +1,17 @@
-function consoleRec(index,elements)
-{
-    if(index < elements.length)
+(function (){
+    var index = 0;
+    function consoleRec(elements)
     {
-        console.log(elements[index]);
-        consoleRec(index + 1,elements);
-        console.log(elements[index]);
-    }else{
-        console.log('In reverse order:');
+        console.log(elements[index++]);
+        if(index < elements.length)
+        {
+            consoleRec(elements);
+        }else{
+            console.log('In reverse order:');
+            index--;
+        }
+        console.log(elements[index--]);
     }
-}
 
-consoleRec.bind(null,0)(['I', 'know', 'how', 'to', 'write', 'recursive', 'functions']);
+    consoleRec(['I', 'know', 'how', 'to', 'write', 'recursive', 'functions']);
+})();
