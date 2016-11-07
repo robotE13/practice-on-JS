@@ -1,17 +1,19 @@
-(function (){
+function consoleOut(elements)
+{
     var index = 0;
-    function consoleRec(elements)
+    function consoleRec()
     {
         console.log(elements[index++]);
         if(index < elements.length)
         {
-            consoleRec(elements);
+            consoleRec();
         }else{
-            console.log('In reverse order:');
-            index--;
+            console.log('Reverse :');
+            index = index - 1;
         }
         console.log(elements[index--]);
     }
+    consoleRec();
+}
 
-    consoleRec(['I', 'know', 'how', 'to', 'write', 'recursive', 'functions']);
-})();
+consoleOut(['I', 'know', 'how', 'to', 'write', 'recursive', 'functions']);
