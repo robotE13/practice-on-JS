@@ -19,21 +19,22 @@ function consoleOut(elements)
 consoleOut(['I', 'know', 'how', 'to', 'write', 'recursive', 'functions']);
 
 function sum (a) {
-    var summa = a;
+    var result = a;
 
-    sumFn.valueOf=function(){
-        return summa;
+    nextCall.valueOf=function(){
+        return result;
     };
-    sumFn.toString=function(){
-        return summa;
-    };
-
-    function sumFn(a1){
-        summa = summa + a1;
-        return sumFn;
+    nextCall.toString=function(){
+        return result;
     };
 
-    return sumFn;
+    function nextCall(a1){
+        result = result + a1;
+        return nextCall;
+    };
+
+    return nextCall;
 };
-console.log(sum(1)(2)(3)(4));
+var res = sum(1)(2)(3)(4)(5).valueOf();
+console.log(res);
 //alert(sum(1)(2)(3)(4));
