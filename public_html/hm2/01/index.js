@@ -24,7 +24,7 @@ function isAllTypeOf(arrSource,fnFilter)
 }
 
 /**
- * @syntax Checks that value typeof String
+ * Checks that value typeof string.
  * @param {mixed} value
  * @returns {Boolean}
  */
@@ -34,7 +34,7 @@ function isString(value)
 }
 
 /**
- * @syntax Checks that value typeof number
+ * Checks that value typeof number.
  * @param {mixed} value
  * @returns {Boolean}
  */
@@ -44,7 +44,7 @@ function isNumber(value)
 }
 
 /**
- * @syntax Array validator
+ * Array validator.
  * @throws {Error} description
  * @param {array|undefined} source
  * @returns {undefined}
