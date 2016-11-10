@@ -21,8 +21,7 @@ function calculator(firstNumber)
         return result;
     },
     /**
-     *
-     * @type type
+     * @type {Object}
      */
     calc = {
         /**
