@@ -5,7 +5,6 @@
  */
 function calculator(firstNumber)
 {
-    var start = firstNumber,
     /**
      * Я знаю о forEach(), но пришлось писать его самому, раз уж нелья методы работы с массивами использовать.
      * @param {Array} args
@@ -13,7 +12,7 @@ function calculator(firstNumber)
      * @returns {Number}
      */
     iterator = function(args,callbackFn){
-        var result = start, index;
+        var result = firstNumber, index;
         for (index = 0; index < args.length;index++)
         {
             result = callbackFn(result,args[index]);
