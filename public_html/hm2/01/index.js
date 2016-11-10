@@ -6,17 +6,17 @@
  */
 function isAllTypeOf(arrSource,fnFilter)
 {
-    var result = true;
     var index = 0;
+
     arrayValidator(arrSource);
-    for(index = 0; (index < arrSource.length) && result; index++)
+    for(index = 0; index < arrSource.length; index++)
     {
         if(!fnFilter(arrSource[index]))
         {
-            result = false;
+            return false;
         }
     }
-    return result;
+    return true;
 }
 
 /**
