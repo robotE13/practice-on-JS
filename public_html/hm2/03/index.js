@@ -13,15 +13,10 @@ function calculator(firstNumber)
      * @returns {Number}
      */
     iterator = function(args,callbackFn){
-        var result = start,
-            index;
-        try {
-            for (index = 0; index < args.length;index++)
-            {
-                result = callbackFn(result,args[index]);
-            }
-        } catch (exc){
-            result = exc.message;
+        var result = start, index;
+        for (index = 0; index < args.length;index++)
+        {
+            result = callbackFn(result,args[index]);
         }
         return result;
     },
@@ -32,7 +27,7 @@ function calculator(firstNumber)
     calc = {
         /**
          * @syntax obj.sum(operand1[,operand2[,...operandN]])
-         * @returns {Number|String} result of addition or error message
+         * @returns {Number} result of addition
          */
         sum : function(){
             return iterator(arguments,function(start,val){
@@ -41,7 +36,8 @@ function calculator(firstNumber)
         },
         /**
          * @syntax obj.div(operand1[,operand2[,...operandN]])
-         * @returns {Number|String} result of the division or error message
+         * @throws {Error} division by zero error
+         * @returns {Number} result of the division
          */
         div : function(){
             return iterator(arguments,function(start,val){
@@ -53,7 +49,7 @@ function calculator(firstNumber)
         },
         /**
          * @syntax obj.mul(operand1[,operand2[,...operandN]])
-         * @returns {Number|String} result of the multiplication or error message
+         * @returns {Number} result of the multiplication
          */
         mul : function(){
             return iterator(arguments,function(start,val){
@@ -62,7 +58,7 @@ function calculator(firstNumber)
         },
         /**
          * @syntax obj.sub(operand1[,operand2[,...operandN]])
-         * @returns {Number|String} result of the subtraction or error message
+         * @returns {Number} result of the subtraction
          */
         sub : function(){
             return iterator(arguments,function(start,val){
@@ -74,11 +70,30 @@ function calculator(firstNumber)
     return calc;
 }
 
+/**
+ *
+ * @param {Function} fn
+ * @returns {undefined}
+ */
+function safeCall(fn)
+{
+    try{
+        console.log(fn());
+    }catch(exc){
+        console.log(exc.message);
+    };
+}
+
 var calculatorOne = calculator(100);
 
 console.log(calculatorOne.sum(0,12,1));//   113
+
 console.log(calculatorOne.sum(12,12));//    124
-console.log(calculatorOne.div(2,2,2));//    12.5
-console.log(calculatorOne.div(2,0,2));//    Division by zero
+
+safeCall(function(){return calculatorOne.div(2,2,2);});//    12.5
+
+safeCall(function(){return calculatorOne.div(2,0,2);});//    Division by zero
+
 console.log(calculatorOne.mul(2,2,0.5));//  200
+
 console.log(calculatorOne.sub(2,2,2,0));//  94

@@ -2,23 +2,19 @@
  *
  * @param {Array} arrSource
  * @param {Function} fnFilter
- * @returns {Boolean|String} The result of applying a filter or the text of the error.
+ * @returns {Boolean} The result of applying a filter.
  */
 function isSomeTypeOf(arrSource,fnFilter)
 {
     var result = false;
     var index = 0;
-    try{
-        arrayValidator(arrSource);
-        do{
-            if(fnFilter(arrSource[index]))
-            {
-                result = true;
-            }
-            index++;
-        }while(index < arrSource.length && !result);
-    }catch(exc){
-        result = exc.message;
+    arrayValidator(arrSource);
+    for(index = 0; (index < arrSource.length) && !result; index++)
+    {
+        if(fnFilter(arrSource[index]))
+        {
+            result = true;
+        }
     }
     return result;
 }
@@ -46,35 +42,46 @@ function isNumber(value)
 /**
  * Array validator.
  * @throws {Error} description
- * @param {array|undefined} source
+ * @param {mixed} source
  * @returns {undefined}
  */
 function arrayValidator(source)
 {
-    if (source.length === 0)
-    {
-        throw new Error('Array cannot be empty');
-    }else if(source.length === undefined)
+    if(!(source instanceof Array))
     {
         throw new Error('The argument is not an array');
+    }else if (source.length === 0)
+    {
+        throw new Error('Array cannot be empty');
     }
+}
+
+/**
+ *
+ * @param {Function} fn
+ * @returns {undefined}
+ */
+function safeCall(fn)
+{
+    try{
+        console.log(fn());
+    }catch(exc){
+        console.log(exc.message);
+    };
 }
 
 var stringsAll = ['test','test','test'], numbersAll = [1,2,3,5,6,7,7], mixedValues = [1,'test','test',2];
 
-console.log(isSomeTypeOf(12,isNumber));//exception
+safeCall(function(){return isSomeTypeOf(12,isNumber);});           //The argument is not an array
 
-console.log(isSomeTypeOf([],isString));//exception
+safeCall(function(){return isSomeTypeOf(stringsAll,isString);});   //true
 
-console.log(isSomeTypeOf(stringsAll,isString));//true
+safeCall(function(){return isSomeTypeOf(numbersAll,isString);});   //false
 
-console.log(isSomeTypeOf(numbersAll,isString));//false
+safeCall(function(){return isSomeTypeOf([],isString);});           //Array cannot be empty
 
-console.log(isSomeTypeOf(mixedValues,isString));//true
+safeCall(function(){return isSomeTypeOf(mixedValues,isString);});  //true
 
-console.log(isSomeTypeOf(mixedValues,isNumber));//true
+safeCall(function(){return isSomeTypeOf(mixedValues,isNumber);});  //true
 
-console.log(isSomeTypeOf(numbersAll,isNumber));//true
-
-
-
+safeCall(function(){return isSomeTypeOf(numbersAll,isNumber);});   //true
