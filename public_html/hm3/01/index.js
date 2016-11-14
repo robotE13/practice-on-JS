@@ -36,7 +36,7 @@ Array.prototype.filter2 = function(filter){
 
     for(var index = 0;index < this.length; index++)
     {
-        if(index in this && filter(this[index],index,this))
+        if(filter(this[index],index,this))
         {
             result[result.length]=this[index];
         }
@@ -57,7 +57,7 @@ Array.prototype.map2 = function(callback)
     {
         if(index in this)
         {
-            result[result.length]=callback(this[index],index,this);
+            result[index]=callback(this[index],index,this);
         }
     }
     return result;
@@ -76,7 +76,7 @@ Array.prototype.slice2 = function(begin, end){
     end = getRealPosition(end,this.length,this.length);
     for (let index = begin; index < end; index++)
     {
-        if(this[index] !== undefined)
+        if(index in this)
         {
             result[result.length]=this[index];
         }else{
@@ -92,16 +92,18 @@ Array.prototype.slice2 = function(begin, end){
  * @param {Number} initialValue
  */
 Array.prototype.reduce2 = function (callback,initialValue) {
-    var result;
+    var result, index;
 
-    if(initialValue){
-        result = initialValue;
-    }else{
+    if(!initialValue){
         arrayValidator(this);
-        result = 0;
+        result = this[0];
+        index = 1;
+    }else{
+        result = initialValue;
+        index = 0;
     }
 
-    for (var index = 0; index < this.length; index++) {
+    for (index; index < this.length; index++) {
         if(index in this)
         {
             result = callback(result,this[index],index,this);
@@ -117,21 +119,26 @@ Array.prototype.reduce2 = function (callback,initialValue) {
  * @returns {Array}
  */
 Array.prototype.splice2 = function (start,deleteCount) {
-    var start = getRealPosition(start,this.length,0),
-        result = this.slice2(start, start + deleteCount),
-        left = this.slice2(start + result.length);
+    var result , left;
+
+    start = getRealPosition(start,this.length,0);
+    if(!deleteCount && deleteCount !== 0)
+    {
+        deleteCount = this.length - start;
+    }
+    result = this.slice2(start, start + deleteCount);
+    left = this.slice2(start + result.length);
 
     this.length = start;
-
     for(let index = 2; index < arguments.length; index++)
     {
         this[this.length]=arguments[index];
     }
-    for(let item of left)
+    for(let index = 0; index < left.length;index++)
     {
-        if(item !== undefined)
+        if(index in left)
         {
-            this[this.length] = item;
+            this[this.length] = left[index];
         }else{
             this.length++;
         }
@@ -152,7 +159,7 @@ function arrayValidator(source)
         throw new Error('The argument is not an array');
     }else if (!source.length)
     {
-        throw new Error('Array cannot be empty');
+        throw new Error('Reduce of empty array with no initial value');
     }
 }
 
@@ -174,33 +181,69 @@ function getRealPosition(value,length,defaultValue){
     }
 };
 
-let arr = [1,,2,3,,4,5,6];
+let arr = [1,null,2,3,,4,5,undefined,6];
+let arr2 = [1,null,2,3,,4,5,6];
 
-arr.forEach2(element=>console.log(element));    // 1 2 3 4 5 6
+arr.forEach(element=>console.log(element));    // 1 2 3 4 5 undefined 6
+arr.forEach2(element=>console.log(element));    // 1 2 3 4 5 undefined 6
 
+let greaterThanN = arr.filter2(element => greaterThan(2,element));
 let greaterThan2 = arr.filter2(element => greaterThan(2,element));
+console.log(greaterThanN,greaterThan2);             // [ 3, 4, 5, 6]
 
-let mul2 = arr.map2(element=>element*2);
+let mulC = arr.map2(element=>element*2);
+let mulN = arr.map(element=>element*2);
+console.log(mulC, mulN);                            // [ 2, NaN, 4, 6, , 8, 10, NaN, 12 ]
 
-console.log(greaterThan2, mul2);    // [ 3, 4, 5, 6] [ 2, 4, 6, 8, 10, 12 ]
+console.log(arr.slice(3),arr.slice2(3));            // [ 3, , 4, 5, undefined, 6 ]
+console.log(mulC.slice(2,-1),mulC.slice2(2,-1));    // [ 4, 6, , 8, 10, NaN ]
+console.log(mulC.slice(5,6),mulC.slice2(5,6));      // [8]
+console.log(mulC.slice2(),mulC.slice2());           // [ 2, NaN, 4, 6, , 8, 10, NaN, 12 ]
+console.log(arr.slice(-111,56),arr.slice2(-111,56));// [ 1, null, 2, 3, , 4, 5, undefined, 6 ]
+console.log(mulC.slice(-3,-1),mulC.slice2(-3,-1));  // [ 10, NaN]
+console.log(mulC.slice(-4),mulC.slice2(-4));        // [ 8, 10, NaN, 12]*/
 
-console.log(mul2.slice2());         // [ 2, 4, 6, 8, 10, 12 ]
-console.log(mul2.slice2(3));        // [ 8, 10, 12 ]
-console.log(mul2.slice2(2,-1));     // [ 6, 8, 10]
-console.log(mul2.slice2(5,6));      // [12]
-console.log(arr.slice2(-111,56));   // [ 1, , 2, 3, , 4, 5, 6 ]
-console.log(mul2.slice2(-3,-1));    // [ 8, 10]
-console.log(mul2.slice2(-4));       // [ 6, 8, 10, 12]
-
-console.log(arr.reduce2( (prev,next) => prev + next ));     //21
-console.log(arr.reduce2( (prev,next) => prev - next ,101)); //80
-console.log([].reduce2( (prev,next) => prev - next ,101));  //101
+console.log(arr2.reduce( (prev,next) => prev + next ), arr2.reduce2( (prev,next) => prev + next ));     //21
+console.log(arr2.reduce( (prev,next) => prev - next ,101), arr2.reduce2( (prev,next) => prev - next ,101)); //80
+console.log([1].reduce( (prev,next) => prev - next), [1].reduce2( (prev,next) => prev - next));  //1
+console.log([1,1].reduce( (prev,next) => prev - next), [1,1].reduce2( (prev,next) => prev - next));  //0
+console.log([1].reduce( (prev,next) => prev - next ,101), [1].reduce2( (prev,next) => prev - next ,101));  //100
+console.log([1,1].reduce( (prev,next) => prev - next ,101), [1,1].reduce2( (prev,next) => prev - next ,101));  //99
+try{
+    console.log([].reduce( (prev,next) => prev + next));   //Array cannot be empty
+}catch (exc){
+    console.log(exc.message);
+}
 try{
     console.log([].reduce2( (prev,next) => prev + next));   //Array cannot be empty
 }catch (exc){
     console.log(exc.message);
 }
-var spl = mul2.slice2();
-console.log(arr.splice2(-3,2,101,102,103), arr);// [ 4, 5 ] [ 1, , 2, 3, , 101, 102, 103, 6 ]
-console.log(mul2.splice2(-113,2,103), mul2);   // [ 2, 4 ] [ 103, 6, 8, 10, 12 ]
-console.log(spl.splice2(3,2,103), spl);   // [ 8, 10 ] [ 2, 4, 6, 103, 12 ]
+
+var arrN = arr.slice2();
+var arrC = arr.slice2();
+
+console.log(arrC.splice2(2),arrC);
+console.log(arrN.splice(2),arrN);
+
+arrN = arr.slice2();
+arrC = arr.slice2();
+console.log(arrC.splice2(2,0,101),arrC);
+console.log(arrN.splice(2,0,101),arrN);
+
+arrN = arr.slice2();
+arrC = arr.slice2();
+console.log(arrC.splice2(-2),arrC);
+console.log(arrN.splice(-2),arrN);
+
+arrN = arr.slice2();
+arrC = arr.slice2();
+console.log(arrC.splice2(-32,3),arrC);
+console.log(arrN.splice(-32,3),arrN);
+
+arrN = arr.slice2();
+arrC = arr.slice2();
+console.log(arrC.splice2(1,4,101,102),arrC);
+console.log(arrN.splice(1,4,101,102),arrN);
+console.log(arrC.splice2(5,1,103),arrC);
+console.log(arrN.splice(5,1,103),arrN);
