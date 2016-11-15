@@ -2,42 +2,33 @@
 
 /**
  *
- * @param {Object} obj1
- * @param {Object} obj2
+ * @param {Object} variable1
+ * @param {Object} variable2
  * @returns {Boolean}
  */
-function objectsEqual(obj1, obj2)
+function deepEqual(variable1, variable2)
 {
     /**
      * @type Array
      */
     var iterator;
 
-    if(!objectsBoth(obj1,obj2))
+    if(!objectsBoth(variable1,variable2))
     {
-        return false;
-    }else {
-        iterator = Object.keys(obj1);
-        if(iterator.length !== Object.keys(obj2).length)
+        return variable1 === variable2;
+    }else{
+        iterator = Object.keys(variable1);
+        if(iterator.length !== Object.keys(variable2).length)
         {
             return false;
-        }
-
-        if(iterator.length === 0)
-        {
-            return obj1.valueOf() === obj2.valueOf();
+        }else if(iterator.length === 0){// Мне вот эта проверка нужна на случай если попал объект но без свойств в данном случае Date
+            return variable1.valueOf() === variable2.valueOf();
         }
 
         for (let index of iterator)
         {
-            if(objectsBoth(obj1[index], obj2[index]))
+            if(!deepEqual(variable1[index],variable2[index]))
             {
-                if(!objectsEqual(obj1[index],obj2[index]))
-                {
-                    console.log(index);
-                    return false;
-                }
-            }else if(obj1[index] !== obj2[index]){
                 console.log(index);
                 return false;
             }
@@ -123,11 +114,12 @@ var arrA = [1,2,3,4,5,6];
 var arrB = [1,2,3,4,5,6,7];
 var arrC = [1,3,2,4,5,6];
 
-console.log(objectsEqual(objA,objB));   //true
-console.log(objectsEqual(objA,objC));   //false
-console.log(objectsEqual(objA,objD));   // prop6 false
-console.log(objectsEqual(new Date(2016,2,10),new Date('2016/3/10'))); //true
-console.log(objectsEqual(arrA,arrB));   //false
-console.log(objectsEqual(arrA,arrC));   // 1 false
-console.log(objectsEqual(arrA,'12'));   //false
-console.log(objectsEqual(arrA,null));   //false
+console.log(deepEqual(objA,objB));   //true
+console.log(deepEqual(objA,objC));   //false
+console.log(deepEqual(objA,objD));   // prop6 false
+console.log(deepEqual(new Date(2016,2,10),new Date('2016/3/10'))); //true
+console.log(deepEqual(arrA,arrB));   //false
+console.log(deepEqual(arrA,arrC));   // 1 false
+console.log(deepEqual(arrA,'12'));   //false
+console.log(deepEqual(arrA,null));   //false
+console.log(deepEqual(null,null));   //true
