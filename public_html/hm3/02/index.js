@@ -46,9 +46,15 @@ function objectsEqual(obj1, obj2)
     }
 }
 
+/**
+ *
+ * @param {type} obj1
+ * @param {type} obj2
+ * @returns {Boolean}
+ */
 function objectsBoth(obj1, obj2)
 {
-    return (obj1 !== null && typeof obj1 === 'object') && (obj2 !== null && typeof obj2 === 'object');
+    return (obj1 && typeof obj1 === 'object') && (obj2 && typeof obj2 === 'object');
 }
 
 var objA = {
