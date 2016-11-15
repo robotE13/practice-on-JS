@@ -121,5 +121,7 @@ console.log(deepEqual(new Date(2016,2,10),new Date('2016/3/10'))); //true
 console.log(deepEqual(arrA,arrB));   //false
 console.log(deepEqual(arrA,arrC));   // 1 false
 console.log(deepEqual(arrA,'12'));   //false
+console.log(deepEqual('12','12'));   //true
 console.log(deepEqual(arrA,null));   //false
+console.log(deepEqual(null,arrA));   //false
 console.log(deepEqual(null,null));   //true
