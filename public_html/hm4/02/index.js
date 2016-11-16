@@ -7,11 +7,15 @@
  */
 function deleteTextNodes(element)
 {
-    for(let child of element.childNodes)
+    var index = 0, children = element.childNodes;
+
+    while(index < children.length)
     {
-        if(child.nodeType === 3)
+        if(children[index].nodeType === Node.TEXT_NODE)
         {
-            child.remove();
+            children[index].remove();
+        }else{
+            index++;
         }
     }
 }
