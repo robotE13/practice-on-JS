@@ -16,25 +16,27 @@ function deepEqual(variable1, variable2)
     if(!objectsBoth(variable1,variable2))
     {
         return variable1 === variable2;
-    }else{
-        iterator = Object.keys(variable1);
-        if(iterator.length !== Object.keys(variable2).length)
-        {
-            return false;
-        }else if(iterator.length === 0){// Мне вот эта проверка нужна на случай если попал объект но без свойств в данном случае Date
-            return variable1.valueOf() === variable2.valueOf();
-        }
-
-        for (let index of iterator)
-        {
-            if(!deepEqual(variable1[index],variable2[index]))
-            {
-                console.log(index);
-                return false;
-            }
-        }
-        return true;
     }
+
+    iterator = Object.keys(variable1);
+    if(variable1 instanceof Date || variable2 instanceof Date)//здесь именно || иначе Date и пустой Array не попадут вообще в сравнение и вернется true
+    {
+        return variable1.valueOf() === variable2.valueOf();
+    }
+    if(iterator.length !== Object.keys(variable2).length)
+    {
+        return false;
+    }
+
+    for (let index of iterator)
+    {
+        if(!deepEqual(variable1[index],variable2[index]))
+        {
+            console.log(index);
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
