@@ -13,7 +13,7 @@ function deleteTextNodes(element)
     {
         if(children[index].nodeType === Node.TEXT_NODE)
         {
-            children[index].remove();
+            element.removeChild(children[index]);
         }else{
             index++;
         }
