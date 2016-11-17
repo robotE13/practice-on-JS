@@ -9,7 +9,7 @@
  */
 function prepend(container,element)
 {
-    return container.insertBefore(element,container.firstElementChild);
+    return container.insertBefore(element,container.firstChild);
 }
 
 document.addEventListener("DOMContentLoaded",function(){
@@ -17,6 +17,6 @@ document.addEventListener("DOMContentLoaded",function(){
         mainContainer = document.getElementById("main-container");
 
     clever.addEventListener("click",function(){
-        prepend(mainContainer,mainContainer.lastElementChild);
+        prepend(mainContainer,mainContainer.lastChild);
     });
 });
