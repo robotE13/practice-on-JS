@@ -1,1 +1,41 @@
-function closePanel(){var e=document.querySelector(".tabpanel-heading.expanded");if(null!==e){var t=e.querySelector('[role="button"]');e.classList.remove("expanded"),t.setAttribute("data-expanded","false"),document.getElementById(t.getAttribute("href").substr(1)).setAttribute("data-expanded","false")}}document.addEventListener("DOMContentLoaded",function(){for(var e=document.querySelectorAll('.tabpanel-heading [role="button"]'),t=0;t<e.length;t++){var n=e[t];n.addEventListener("click",function(e){var t=this.getAttribute("href").substr(1);e.preventDefault(),"false"===this.dataset.expanded?(closePanel(),document.getElementById(t).setAttribute("data-expanded","true"),this.setAttribute("data-expanded","true")):e.stopPropagation()}),n.parentNode.parentNode.addEventListener("click",function(e){e.stopPropagation(),this.classList.add("expanded")})}});
+function closePanel(accordeon)
+{
+    var activeHeading = accordeon.querySelector('.tabpanel-heading.expanded');
+
+    if(activeHeading !== null)
+    {
+        var button = activeHeading.querySelector('[role="button"]');
+
+        activeHeading.classList.remove('expanded');
+        button.setAttribute('data-expanded','false');
+        document.getElementById(button.getAttribute('href').substr(1)).setAttribute('data-expanded','false');
+    }
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+    var accordeon = document.getElementById('accordeon-0');
+
+    accordeon.addEventListener('click',function(event){
+        /**
+         * @type {Element}
+         */
+        var heading,panel;
+
+        if (event.target.getAttribute('role') === 'button')
+        {
+            if(event.target.getAttribute('data-expanded')==='false')
+            {
+                closePanel(this);
+                heading = event.target.parentNode.parentNode;
+                heading.classList.add('expanded');
+                panel = document.getElementById(event.target.getAttribute('href').substr(1));
+                panel.setAttribute('data-expanded','true');
+                event.target.setAttribute('data-expanded','true');
+            }else{
+                closePanel(this);
+            }
+        }
+    });
+});
+
+
