@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Homework 05.2</title>
+        <script src="index.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            html, body{
+                height: 100%;
+                margin: 0;
+            }
+            #out{
+                background-color: #c1c1c1;
+                min-height: 100%;
+                height: auto;
+                position: relative;
+            }
+            button{
+                position: relative;
+                z-index: 200;
+                margin: 10px;
+            }
+            .draggable{
+                position: absolute;
+                z-index: 198;
+            }
+            .draggable.picked{
+                box-shadow: 1px 1px 5px 3px gray;
+                z-index: 201;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="out">
+            <button id="clever-button">Добавить блок</button>
+            <!--button id="clear-button">Очистка</button-->
+        </div>
+    </body>
+</html>
