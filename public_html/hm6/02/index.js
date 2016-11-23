@@ -48,14 +48,20 @@ function sort(array)
     return array;
 }
 
+/**
+ * Function returns the sequence of increments for sorting.
+ * @param {Number} length of the array to be sorted
+ * @returns {Array}
+ */
 function getSequence(length) {
     let sequence = [1750,701,301,132,57,23,10,4,1],
-        index = sequence.length - 1,
+        index = sequence.length,
         middle = Math.floor(length/2);
-    while (sequence[index] < middle) {
+    do{
         index--;
     }
-    return sequence.slice(index);
+    while (index !== -1 && sequence[index] < middle)
+    return sequence.slice(index + 1);
 }
 
 document.addEventListener('DOMContentLoaded',function (){
