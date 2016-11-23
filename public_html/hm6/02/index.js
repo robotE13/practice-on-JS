@@ -51,7 +51,7 @@ function sort(array)
 function getSequence(length) {
     let sequence = [1750,701,301,132,57,23,10,4,1],
         index = sequence.length - 1,
-        middle = Math.ceil(length/2);
+        middle = Math.floor(length/2);
     while (sequence[index] < middle) {
         index--;
     }
