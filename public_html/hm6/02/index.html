@@ -10,8 +10,31 @@ and open the template in the editor.
         <script src="index.js"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            label{
+                display: block;
+            }
+            ul:after{
+                content: '';
+                display: table;
+                clear:both
+            }
+            li{
+                display: block;
+                float: left;
+                padding: 7px 12px;
+            }
+            input{
+                font-size: 16px;
+                line-height: 1.4;
+                padding: 5px 12px;
+                min-width: 300px;
+            }
+        </style>
     </head>
     <body>
+        <label for="filter">Срабатывает если введено более 2-х символов либо поле очищено</label>
+        <input id="filter" type="text" name="filter" placeholder="Введите минимум 2 символа"/>
         <ul id="out"></ul>
     </body>
 </html>
