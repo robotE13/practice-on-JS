@@ -10,6 +10,9 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
+            form{
+                display: inline-block;
+            }
             tr{
                 text-align: center;
             }
@@ -20,9 +23,46 @@ and open the template in the editor.
             th + th, td + td{
                 border-left:1px dotted;
             }
+            label{
+                display: inline-block;
+                width: 200px;
+                text-align: right;
+            }
+            .form-group{
+                margin-bottom: 7px;
+            }
+            .form-group.error label{
+                color:red;
+            }
+            .form-group.error input{
+                border: 1px solid red
+            }
+            .help-block{
+                text-align: right;
+                font-size: 12px;
+                height: 16px;
+            }
         </style>
     </head>
     <body>
+        <form id="add-cookie-form">
+            <div class="form-group">
+                <label for="cookie-name">Имя cookie</label>
+                <input id="cookie-name" type="text" name="name" />
+                <div class="help-block"></div>
+            </div>
+            <div class="form-group">
+                <label for="cookie-value">Значение</label>
+                <input id="cookie-value" type="text" name="value" />
+                <div class="help-block"></div>
+            </div>
+            <div class="form-group">
+                <label for="cookie-expired_in">Действительна (дней)</label>
+                <input id="cookie-expired_in" type="text" name="expired_in" />
+                <div class="help-block"></div>
+            </div>
+            <button id="submit-cookie" type="submit">Добавить cookie</button>
+        </form>
         <div id="out"></div>
         <script src="index.js"></script>
     </body>
