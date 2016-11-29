@@ -4,6 +4,12 @@ document.cookie = "cookie3=value3;path=/";
 document.cookie = "cookie4=value4;path=/";
 document.cookie = `cookie4=value4;path=/;expires=${new Date(2015,0,1).toGMTString()}`;
 
+/**
+ *
+ * @param {string} tag
+ * @param {string} textContent
+ * @returns {Element}
+ */
 function createElement(tag,textContent = null) {
     let element = document.createElement(tag);
     element.textContent=textContent;
@@ -11,9 +17,17 @@ function createElement(tag,textContent = null) {
 };
 
 var container = document.getElementById('out'),
-
+    /**
+     * @typedef {formView} FormView description
+     * @property {Element} element description
+     */
     formView = {
         element:null,
+        /**
+         * Render form view.
+         * @param {CookieModel} model
+         * @returns {Boolean}
+         */
         update:function (model) {
             for (var attribute in model) {
                 let input = this.element.elements[attribute],
@@ -30,16 +44,15 @@ var container = document.getElementById('out'),
                     helpBlock.textContent = '';
                 }
             }
+            return true;
         }
     },
-
     tableView = {
         element:null,
         init:function () {
             this.element = document.createElement('table');
             return this;
         },
-
         saveRow: function (cellTag,rowKey,...cellContent)
         {
             let tr = createElement('tr'),
@@ -52,9 +65,17 @@ var container = document.getElementById('out'),
             }else{
                 this.element.appendChild(tr);
             }
+        },
+        removeRow:function (rowKey)
+        {
+            this.element.removeChild(document.getElementById(rowKey));
+            return true;
         }
     },
-
+    /**
+     *
+     * @typedef {cookieModel} CookieModel представляет параметры куки полученные через форму добавления
+     */
     cookieModel = {
         name:null,
         value:null,
@@ -106,16 +127,21 @@ var container = document.getElementById('out'),
         reset:{enumerable:false}
     });
 
-    tableView.init();
-    tableView.saveRow('th','row-key-header','Cookie name','Cookie value');
+//  Something like a controller
+// ----------------------------
 
-    for (let cookie  of document.cookie.split('; '))
-    {
-        cookie = cookie.split('=');
-        tableView.saveRow('td',`row-key-${cookie[0]}`,cookie[0],cookie[1]);
-    }
-    container.appendChild(tableView.element);
+// Init action
+tableView.init();
+tableView.saveRow('th','row-key-header','Cookie name','Cookie value');
 
+for (let cookie  of document.cookie.split('; '))
+{
+    cookie = cookie.split('=');
+    tableView.saveRow('td',`row-key-${cookie[0]}`,cookie[0],cookie[1]);
+}
+container.appendChild(tableView.element);
+
+// Set cookie action
 document.querySelector('body').addEventListener('click',function (event){
     if(event.target.tagName === 'BUTTON')
     {
@@ -127,7 +153,10 @@ document.querySelector('body').addEventListener('click',function (event){
         cookieModel.load(formView.element.elements);
         if(cookieModel.save())
         {
-            tableView.saveRow('td',`row-key-${cookieModel.name}`,cookieModel.name,cookieModel.value);
+            cookieModel.expired_in < 0 ?
+                tableView.removeRow(`row-key-${cookieModel.name}`) :
+                tableView.saveRow('td',`row-key-${cookieModel.name}`,cookieModel.name,cookieModel.value);
+
             cookieModel.reset();
         }
         formView.update(cookieModel);
