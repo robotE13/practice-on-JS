@@ -130,7 +130,7 @@ var container = document.getElementById('out'),
 //  Something like a controller
 // ----------------------------
 
-// Init action
+// Init page action
 tableView.init();
 tableView.saveRow('th','row-key-header','Cookie name','Cookie value');
 
