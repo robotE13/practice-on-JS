@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Тестовый аккордеон</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="./dist/index.js"></script>
+        <link href="./dist/index.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,400,500,500i&amp;subset=cyrillic" rel="stylesheet"> 
+    </head>
+    <body>
+        <div class="container center-block">
+            <img class="center-block" src="./dist/images/logo.jpg" alt="Тестовый аккордеон - лого.">
+            <div id="accordeon-0" class="accordeon" role="tablist">
+              <div class="tabpanel" role="tab">
+                <div class="tabpanel-heading">
+                    <h2>
+                        <a href="#tab-one" data-expanded="false" role="button">
+                            Основы языка и как на нём говорить правильно
+                        </a>
+                    </h2>
+                </div>
+                <ul id="tab-one" data-expanded="false" role="presentation">
+                    <li>Лексическая структура</li>
+                    <li>Типы данных, значения и переменные</li>
+                    <li>Выражение и операторы</li>
+                </ul>
+              </div><!-- /.tabpanel -->
+
+              <div class="tabpanel" role="tab">
+                <div class="tabpanel-heading">
+                    <h2>
+                        <a href="#tab-two" data-expanded="false" role="button">
+                            Функции
+                        </a>
+                    </h2>
+                </div>
+                <ul id="tab-two" data-expanded="false" role="presentation">
+                    <li>зачем нужны функции</li>
+                    <li>способы объявления функций</li>
+                    <li>область видимости</li>
+                    <li>замыкания</li>
+                    <li>всплытие</li>
+                    <li>iife</li>
+                </ul>
+              </div><!-- /.tabpanel -->
+
+              <div class="tabpanel" role="tab">
+                <div class="tabpanel-heading">
+                    <h2>
+                        <a href="#tab-three" data-expanded="false" role="button">
+                            Обработа ошибок и отладка
+                        </a>
+                    </h2>
+                </div>
+                <ul id="tab-three" data-expanded="false" role="presentation">
+                    <li>консоль и dev tools</li>
+                    <li>типичные проблемы</li>
+                    <li>обработка ошибок</li>
+                    <li>порядок выполнения</li>
+                    <li>стэк stack</li>
+                    <li>error object</li>
+                    <li>workflow отладки - логирование данных в консоль, методы консоли, breakpoints, пошаговая отладка, условные breakpoints, debugger keyword, обработка исключений - exceptions (try, catch, finally), throwing exeptions</li>
+                </ul>
+              </div><!-- /.tabpanel -->
+              
+              <div class="tabpanel" role="tab">
+                <div class="tabpanel-heading">
+                    <h2>
+                        <a href="#tab-four" data-expanded="false" role="button">
+                            Структуры данных: объекты и массивы
+                        </a>
+                    </h2>
+                </div>
+                <ul id="tab-four" data-expanded="false" role="presentation">
+                    <li>Объекты</li>
+                    <li>Массивы</li>
+                    <li>Строки</li>
+                    <li>Подробнее об объектах</li>
+                </ul>
+              </div><!-- /.tabpanel -->
+            </div>
+        </div>
+    </body>
+</html>
